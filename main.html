@@ -1,0 +1,74 @@
+<html>
+
+<script>
+function computerPlay() { //returns either Rock , Paper or Scissors, but in this function there is tendency to get scissors
+let rnd_number = (Math.random()*10+1);
+	if (rnd_number <= 3) {
+		return "Rock"
+	} else if( rnd_number > 3 && rnd_number < 7) {
+		return "Paper"
+	} else {
+		return "Scissor"
+	}
+}
+
+function playRound(playerSelection,computerSelection){//plays one round of Rock Paper Scissors 
+playerSelection = playerSelection.toLowerCase();
+if (playerSelection.search("scissors") != -1) {
+playerSelection = "scissor"
+}
+computerSelection = computerSelection.toLowerCase();
+if (playerSelection == computerSelection){
+	return "It's a Draw!"
+} else if (playerSelection == "rock" && computerSelection == "scissor") {
+	return "You WIN!, Rock beats Scissors!"
+} else if (playerSelection == "rock" && computerSelection == "paper") {
+	return "You LOSE!, Paper beats Rock!"
+} else if (playerSelection == "paper" && computerSelection == "scissor") { 
+	return "You LOSE!, Scissors beats Paper!"
+} else if (playerSelection == "paper" && computerSelection == "rock") { 
+	return "You WIN!, Paper beats Rock!"
+} else if (playerSelection == "scissor" && computerSelection == "rock") {
+	return "You LOSE!, Rock beats Scissors!"
+} else if (playerSelection == "scissor" && computerSelection == "paper") {
+	return "You WIN!, Scissors beats paper!"}
+}
+
+
+function game(){
+alert("Lets play 5 rounds of Rock,Paper,Scissors!. Are you Ready!")
+let playerwon = 0;
+let computerwon = 0;
+let n_draw = 0;
+let player_answer = "";
+let result = "";
+
+for (i = 0; i < 5; i++) {
+let jkl = i + 1
+console.log("ROUND " + jkl)
+player_answer = prompt("What shall it be? Rock, Paper or Scissors?")
+console.log(result = playRound(player_answer,computerPlay()))
+result = result.toLowerCase()
+if(result.search("win") != -1) {
+		playerwon += 1
+	} else if (result.search("lose") != -1) {
+		computerwon += 1
+	} else {
+		n_draw += 1
+	}
+console.log("You scored :" + playerwon + ";" + "Computer scored :" + computerwon)
+console.log("******************************************")//to make it look slightly readable in the console
+}
+if (playerwon>computerwon) {
+console.log("WOW! You won the match!")
+}else if (computerwon>playerwon) {
+console.log("Darn it! You lost in this match") 
+} else {
+console.log("It's a DRAW!, you can try again by refreshing the page")
+}
+
+}
+game()
+</script>
+
+</html>
