@@ -1,6 +1,50 @@
 <html>
+<head>
+	<title>Rock Paper Scissors UI funtikar</title>
+</head>
+<body>
+<br>
+<h1 class="jigahuna">Funtikar's Rock Paper Scissors!</h1>
+<br>	
+<div class="btn"><input type="button" value="Rock" id='b_rock'><input type="button" value="Paper" id='b_paper'><input type="button" value="Scissors" id='b_scissors'></div>
+
+</body>
+
+<style>
+h1 {
+	margin: 50px auto;
+	text-align: center;
+}
+
+.btn {
+	text-align: center;
+}
+
+.btn input {
+	border: none;
+	width: 100px;
+	background-color: grey;
+	color: white;
+	transition-duration: 0.4s;
+	border-radius: 15px;
+	padding: 10px;
+	margin: 20px;
+}
+
+.btn input:hover {
+	background-color: white;
+	color: black;
+}
+</style>
 
 <script>
+let playerwon = 0;
+let computerwon = 0;
+let n_draw = 0;
+let n_rounds = 1;
+let player_answer = "";
+let result = "";
+
 function computerPlay() { //returns either Rock , Paper or Scissors, but in this function there is tendency to get scissors
 let rnd_number = (Math.random()*10+1);
 	if (rnd_number <= 3) {
@@ -12,53 +56,95 @@ let rnd_number = (Math.random()*10+1);
 	}
 }
 
+
+//var v_playRound = 
 function playRound(playerSelection,computerSelection){//plays one round of Rock Paper Scissors 
+n_rounds++;
 playerSelection = playerSelection.toLowerCase();
 if (playerSelection.search("scissors") != -1) {
 playerSelection = "scissor"
 }
 computerSelection = computerSelection.toLowerCase();
 if (playerSelection == computerSelection){
+	n_draw++
 	return "It's a Draw!"
 } else if (playerSelection == "rock" && computerSelection == "scissor") {
+	playerwon++
 	return "You WIN!, Rock beats Scissors!"
 } else if (playerSelection == "rock" && computerSelection == "paper") {
+	computerwon++
 	return "You LOSE!, Paper beats Rock!"
 } else if (playerSelection == "paper" && computerSelection == "scissor") { 
+	computerwon++
 	return "You LOSE!, Scissors beats Paper!"
 } else if (playerSelection == "paper" && computerSelection == "rock") { 
+	playerwon++
 	return "You WIN!, Paper beats Rock!"
 } else if (playerSelection == "scissor" && computerSelection == "rock") {
+	computerwon++
 	return "You LOSE!, Rock beats Scissors!"
 } else if (playerSelection == "scissor" && computerSelection == "paper") {
+	playerwon++
 	return "You WIN!, Scissors beats paper!"}
+
+
 }
 
 
 function game(){
 alert("Lets play 5 rounds of Rock,Paper,Scissors!. Are you Ready!")
-let playerwon = 0;
-let computerwon = 0;
-let n_draw = 0;
-let player_answer = "";
-let result = "";
+	
+//const btns = document.querySelector('#b_paper');
+const t_h1 = document.querySelector('.jigahuna');
+const r_br = document.createElement('br');
+const r_div = document.createElement('div');
+const r_br2 = document.createElement('br');
+const r_results = document.createElement('b');
 
-for (i = 0; i < 5; i++) {
-let jkl = i + 1
-console.log("ROUND " + jkl)
-player_answer = prompt("What shall it be? Rock, Paper or Scissors?")
-console.log(result = playRound(player_answer,computerPlay()))
-result = result.toLowerCase()
-if(result.search("win") != -1) {
-		playerwon += 1
-	} else if (result.search("lose") != -1) {
-		computerwon += 1
-	} else {
-		n_draw += 1
+t_h1.appendChild(r_br);
+
+
+const buttons = document.querySelectorAll('input');
+
+// we use the .forEach method to iterate through each button
+buttons.forEach((input) => {
+  // and for each one we add a 'click' listener
+  input.addEventListener('click', function(e){
+	r_results.textContent = playRound(e.target.value,computerPlay())
+	r_results.style.color = "black"
+	r_div.textContent = "You : " + playerwon + "; Computer :" + computerwon;
+	t_h1.appendChild(r_div);
+	t_h1.appendChild(r_br2);
+	t_h1.appendChild(r_results);
+	if (n_rounds > 5) {
+		if (playerwon>computerwon) {
+			r_results.textContent = "WOW! You won the match! You can try again by clicking any of the buttons"
+			r_results.style.color = "green"
+			t_h1.appendChild(r_results);
+		}else if (computerwon>playerwon) {
+			r_results.textContent = "Darn it! You lost in this match. You can try again by clicking any of the buttons"
+			r_results.style.color = "red"
+			t_h1.appendChild(r_results);
+		} else {
+			r_results.textContent = "It's a DRAW!. You can try again by clicking any of the buttons"
+			r_results.style.color = "grey"
+			t_h1.appendChild(r_results);
+		}
+	n_rounds = 1;
+	playerwon = 0;
+	computerwon = 0;	
 	}
-console.log("You scored :" + playerwon + ";" + "Computer scored :" + computerwon)
-console.log("******************************************")//to make it look slightly readable in the console
-}
+});
+});
+
+/*
+btns.addEventListener('click',function(e){
+	console.log(playRound(e.target.value,computerPlay()));
+});
+
+*/
+
+/*
 if (playerwon>computerwon) {
 console.log("WOW! You won the match!")
 }else if (computerwon>playerwon) {
@@ -66,9 +152,32 @@ console.log("Darn it! You lost in this match")
 } else {
 console.log("It's a DRAW!, you can try again by refreshing the page")
 }
+*/
 
 }
 game()
+
+
+/*
+for (i = 0; i < 5; i++) {	
+	let jkl = i + 1
+	console.log("ROUND " + jkl)
+	player_answer = prompt("What shall it be? Rock, Paper or Scissors?")
+	console.log(result = playRound(player_answer,computerPlay()))
+	result = result.toLowerCase()
+	if(result.search("win") != -1) {
+			playerwon += 1
+		} else if (result.search("lose") != -1) {
+			computerwon += 1
+		} else {
+			n_draw += 1
+		}
+	console.log("You scored :" + playerwon + ";" + "Computer scored :" + computerwon)
+	console.log("******************************************")//to make it look slightly readable in the console
+	}
+*/
 </script>
+
+
 
 </html>
